@@ -19,7 +19,7 @@ class UsersController extends Controller
      * required是否空
      * unique唯一性：模型表
      * max、min 最大、最小
-     *confirmed验证两次密码是否一致
+     * confirmed验证两次密码是否一致
      * @param Request $request
      * @throws \Illuminate\Validation\ValidationException
      */

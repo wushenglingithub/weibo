@@ -8,6 +8,22 @@ use Auth;
 
 class UsersController extends Controller
 {
+    /**
+     * 中间件路径：app/Http/Controllers/UsersController.php
+     * 过滤未登录用户 edit,update
+     * UsersController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'except' => ['show', 'create', 'store']
+        ]);
+        //只让未登录的用户访问注册页面
+        $this->middleware('guest',[
+            'only' => ['create']
+        ]);
+    }
+
     public function create(){
         return view('users.create');
     }
@@ -50,6 +66,11 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
+        //authorize 方法，它可以被用于快速授权一个指定的行为，
+        //当无权限运行该行为时会抛出 HttpException。
+        //authorize 方法接收两个参数，
+        //第一个为授权策略的名称，第二个为进行授权验证的数据。
+        $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
@@ -61,6 +82,7 @@ class UsersController extends Controller
      */
     public function update(User $user, Request $request)
     {
+        $this->authorize('update', $user);
         $this->validate($request, [
             'name' => 'required|max:50',
             'password' => 'nullable|confirmed|min:6'

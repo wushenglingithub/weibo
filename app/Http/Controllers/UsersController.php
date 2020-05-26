@@ -15,6 +15,9 @@ class UsersController extends Controller
      */
     public function __construct()
     {
+        /**
+         * 中间件
+         */
         $this->middleware('auth', [
             'except' => ['show', 'create', 'store','index']
         ]);
@@ -106,6 +109,14 @@ class UsersController extends Controller
         //优化如下,一次查询10条数据
         $users = User::paginate(10);
         return view('users.index',compact('users'));
+    }
+
+    public function destroy(User $user){
+//        删除授权策略
+        $this->authorize('destroy',$user);
+        $user->delete();
+        session()->flash('success','成功删除用户');
+        return back();
     }
 
 }

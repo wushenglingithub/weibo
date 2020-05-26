@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Auth;
 
 class UsersController extends Controller
 {
@@ -19,7 +20,7 @@ class UsersController extends Controller
      * required是否空
      * unique唯一性：模型表
      * max、min 最大、最小
-     *confirmed验证两次密码是否一致
+     * confirmed验证两次密码是否一致
      * @param Request $request
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -35,7 +36,11 @@ class UsersController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
+
+        Auth::login($user);
         session()->flash('success','欢迎，您将在这里开启一段新的旅程~');
         return redirect()->route('users.show',[$user]);
     }
+
+
 }

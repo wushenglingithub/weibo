@@ -66,8 +66,12 @@ class User extends Authenticatable
     }
 
     public function feed(){
-        return $this->statuses()
-            ->orderBy('created_at','desc');
+        //pluck 方法将 id 进行分离并赋值给 user_ids
+        $user_ids = $this->followings->pluck('id')->toArray();
+        array_push($user_ids, $this->id);
+        return Status::whereIn('user_id', $user_ids)
+            ->with('user')
+            ->orderBy('created_at', 'desc');
     }
 
     public function followers()

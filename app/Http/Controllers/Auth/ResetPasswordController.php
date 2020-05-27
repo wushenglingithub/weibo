@@ -31,6 +31,8 @@ class ResetPasswordController extends Controller
     protected $redirectTo = '/';
 
     /**
+     * qq邮箱授权码
+     * cihqnptdmezebhja
      * 重置功能的底层逻辑路径：
      * vendor/laravel/framework/src/Illuminate/Foundation/Auth/ResetsPasswords.php
      * ResetPasswordController constructor.

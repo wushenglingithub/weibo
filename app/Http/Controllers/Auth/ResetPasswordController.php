@@ -26,5 +26,17 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+//    protected $redirectTo = RouteServiceProvider::HOME;
+    //重置密码跳转至HOME，改为根目录
+    protected $redirectTo = '/';
+
+    /**
+     * 重置功能的底层逻辑路径：
+     * vendor/laravel/framework/src/Illuminate/Foundation/Auth/ResetsPasswords.php
+     * ResetPasswordController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
 }
